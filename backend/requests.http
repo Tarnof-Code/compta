@@ -1,0 +1,37 @@
+### App Request
+GET http://localhost:{{$dotenv PORT}}/
+
+### Messages Request
+GET http://localhost:{{$dotenv PORT}}/messages
+
+### Message Request
+GET http://localhost:{{$dotenv PORT}}/messages/1526f
+
+### Get all users
+GET http://localhost:{{$dotenv PORT}}/users
+
+### Get a user
+GET http://localhost:{{$dotenv PORT}}/users/Bob
+
+### Post user
+POST http://localhost:{{$dotenv PORT}}/users
+Content-Type: application/json
+
+{
+    "userName": "Bobby",
+    "userPassword": "123"
+}
+
+### Auth login
+POST http://localhost:{{$dotenv PORT}}/auth/login
+Content-Type: application/json
+
+{
+    "userName": "Bob",
+    "userPassword": "123"
+}
+
+### auth get profile
+
+GET http://localhost:{{$dotenv PORT}}/auth/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhc2Q2NyIsImlhdCI6MTc0NDIxNjUyNSwiZXhwIjoxNzQ1NTEyNTI1fQ.VJbL4mHVWgJR0_dVraiWKguSX9hkgyyYLG0_m5hx7VA
