@@ -8,12 +8,16 @@
             v-model="userName"
             label="Nom d'utilisateur"
             clearable
+            append-icon="mdi-account"
             :rules="[rules.required]"
           ></v-text-field>
           <v-text-field
             v-model="password"
             label="Mot de passe"
             clearable
+            :type="showPassword ? 'text' : 'password'"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="showPassword = !showPassword"
             :rules="[rules.required]"
           ></v-text-field>
           <v-btn
@@ -24,6 +28,7 @@
           >
             Se connecter
           </v-btn>
+          <p class="text-red mt-2">{{ errorMessage }}</p>
         </v-form>
       </v-card-text>
     </v-card>
@@ -31,13 +36,33 @@
 </template>
 
 <script setup lang="ts">
+import { login, getProfile, isAuthenticated } from "@/services/authService";
+import { ref, type Ref } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/authStore";
+
+const router = useRouter();
+const authStore = useAuthStore();
+const showPassword = ref(false);
+onMounted(async () => {
+  const response = await isAuthenticated();
+  if (response) {
+    router.push(`/dashboard/${response.userId}`);
+  }
+});
+
 const rules = {
   required: (value: string) => !!value || "Ce champ est obligatoire",
 };
-const userName = ref("");
-const password = ref("");
+const userName: Ref<string> = ref("");
+const password: Ref<string> = ref("");
+const errorMessage = authStore.error;
 
-const handleLogin = () => {
-  console.log(userName.value, password.value);
+const handleLogin = async () => {
+  await authStore.loginUser(userName.value, password.value);
+
+  if (authStore.isLoggedIn) {
+    router.push(`/dashboard/${authStore.user?.userId}`);
+  }
 };
 </script>

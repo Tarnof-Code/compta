@@ -34,4 +34,4 @@ Content-Type: application/json
 ### auth get profile
 
 GET http://localhost:{{$dotenv PORT}}/auth/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhc2Q2NyIsImlhdCI6MTc0NDIxNjUyNSwiZXhwIjoxNzQ1NTEyNTI1fQ.VJbL4mHVWgJR0_dVraiWKguSX9hkgyyYLG0_m5hx7VA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaWF0IjoxNzQ1NDI0MDI1LCJleHAiOjE3NDY3MjAwMjV9.9Pt96Lcxn0LPw-OHUkW9doxImmGPyhRD-ojTrF2Rn1c

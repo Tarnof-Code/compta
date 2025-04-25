@@ -14,8 +14,18 @@ export class UsersService {
     return await this.userRepository.find(); // récupère tous les utilisateurs
   }
 
-  async getUser(userName: string): Promise<User | null> {
-    return await this.userRepository.findOneBy({ ['userName']: userName }); // récupère un utilisateur
+  async getUserByUserName(userName: string): Promise<User | null> {
+    if (!userName) {
+      return null;
+    }
+    const user = await this.userRepository.findOneBy({
+      ['userName']: userName,
+    });
+    return user;
+  }
+
+  async getUserByUserId(userId: number): Promise<User | null> {
+    return await this.userRepository.findOneBy({ userId });
   }
 
   async createUser(user: User): Promise<string> {

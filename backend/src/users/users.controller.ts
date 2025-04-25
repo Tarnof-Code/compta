@@ -23,8 +23,8 @@ export class UsersController {
   }
 
   @Get(':userName')
-  async getUser(@Param('user') userName: string) {
-    const data = await this.usersService.getUser(userName);
+  async getUser(@Param('userName') userName: string) {
+    const data = await this.usersService.getUserByUserName(userName);
     return data;
   }
 

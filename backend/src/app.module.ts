@@ -32,6 +32,7 @@ import { AuthModule } from './auth/auth.module';
     MessagesModule,
     UsersModule,
     AuthModule,
+    ConfigModule,
   ],
   controllers: [AppController],
   providers: [AppService],

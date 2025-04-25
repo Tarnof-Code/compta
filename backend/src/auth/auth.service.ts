@@ -18,7 +18,7 @@ export class AuthService {
 
   async login(authBoby: AuthBodyDto) {
     const { userName, userPassword } = authBoby;
-    const existingUser = await this.userService.getUser(userName);
+    const existingUser = await this.userService.getUserByUserName(userName);
     if (!existingUser)
       throw new UnauthorizedException({
         error: "Mot de passe ou nom d'utilisateur incorrect",
@@ -32,11 +32,11 @@ export class AuthService {
         error: "Mot de passe ou nom d'utilisateur incorrect",
       });
 
-    return this.authentificateUser({ userId: existingUser.userId.toString() });
+    return this.authentificateUser({ userId: existingUser.userId });
   }
 
-  async getProfile(userName: string) {
-    const user = await this.userService.getUser(userName);
+  async getProfile(userId: number) {
+    const user = await this.userService.getUserByUserId(userId);
     if (!user)
       throw new NotFoundException({
         error: 'Utilisateur non trouvé',
@@ -53,7 +53,7 @@ export class AuthService {
   }
 
   // Fonction qui gère le JWT
-  private async authentificateUser({ userId }: { userId: string }) {
+  private async authentificateUser({ userId }: { userId: number }) {
     const payload = { userId };
     return { access_token: await this.jwtService.sign(payload) };
   }
