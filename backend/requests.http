@@ -18,7 +18,7 @@ POST http://localhost:{{$dotenv PORT}}/users
 Content-Type: application/json
 
 {
-    "userName": "Bobby",
+    "userName": "Bob",
     "userPassword": "123"
 }
 

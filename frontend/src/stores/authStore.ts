@@ -18,13 +18,12 @@ export const useAuthStore = defineStore("auth", () => {
   const loginUser = async (username: string, password: string) => {
     loading.value = true;
     error.value = null;
-
     try {
       await login(username, password);
       const profile = await getProfile();
       user.value = { userId: profile.userId, userName: profile.userName };
     } catch (err: any) {
-      error.value = "Identifiants invalides ou erreur serveur.";
+      error.value = err.response.data.error;
       console.error("Login failed:", err);
     } finally {
       loading.value = false;

@@ -56,11 +56,10 @@ const rules = {
 };
 const userName: Ref<string> = ref("");
 const password: Ref<string> = ref("");
-const errorMessage = authStore.error;
+const errorMessage = computed(() => authStore.error);
 
 const handleLogin = async () => {
   await authStore.loginUser(userName.value, password.value);
-
   if (authStore.isLoggedIn) {
     router.push(`/dashboard/${authStore.user?.userId}`);
   }

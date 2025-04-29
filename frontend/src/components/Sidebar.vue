@@ -9,13 +9,14 @@
 </template>
 
 <script setup lang="ts">
-import { logout } from "@/services/authService";
+import { useAuthStore } from "@/stores/authStore";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 const handleLogout = () => {
-  logout();
+  authStore.logoutUser();
   router.push("/login");
 };
 </script>
