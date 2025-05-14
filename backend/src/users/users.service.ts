@@ -10,6 +10,11 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  async userExists(userId: number): Promise<boolean> {
+    const user = await this.userRepository.findOneBy({ userId });
+    return !!user;
+  }
+
   async getUsers(): Promise<User[]> {
     return await this.userRepository.find(); // récupère tous les utilisateurs
   }

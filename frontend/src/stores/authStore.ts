@@ -21,7 +21,11 @@ export const useAuthStore = defineStore("auth", () => {
     try {
       await login(username, password);
       const profile = await getProfile();
-      user.value = { userId: profile.userId, userName: profile.userName };
+      user.value = {
+        userId: profile.userId,
+        userName: profile.userName,
+        cashBalance: profile.cashBalance,
+      };
     } catch (err: any) {
       error.value = err.response.data.error;
       console.error("Login failed:", err);
@@ -38,7 +42,11 @@ export const useAuthStore = defineStore("auth", () => {
   const checkAuth = async () => {
     const result = await isAuthenticated();
     if (result) {
-      user.value = { userId: result.userId, userName: result.userName };
+      user.value = {
+        userId: result.userId,
+        userName: result.userName,
+        cashBalance: result.cashBalance,
+      };
     } else {
       user.value = null;
     }

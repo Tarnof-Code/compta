@@ -7,6 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
+import { AccountModule } from './accounts/accounts.module';
+import { AccountingLineModule } from './accounting-line/accounting-line.module';
+import { SpendingCategoryModule } from './spending-category/spending-category.module';
 
 @Module({
   imports: [
@@ -33,6 +36,9 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     AuthModule,
     ConfigModule,
+    AccountModule,
+    AccountingLineModule,
+    SpendingCategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

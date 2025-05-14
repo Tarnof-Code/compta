@@ -35,3 +35,17 @@ Content-Type: application/json
 
 GET http://localhost:{{$dotenv PORT}}/auth/profile
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaWF0IjoxNzQ1NDI0MDI1LCJleHAiOjE3NDY3MjAwMjV9.9Pt96Lcxn0LPw-OHUkW9doxImmGPyhRD-ojTrF2Rn1c
+
+### Get accounts by user id
+GET http://localhost:{{$dotenv PORT}}/accounts/user/3
+
+### Create account
+POST http://localhost:{{$dotenv PORT}}/accounts/user/3
+Content-Type: application/json
+
+{
+    "bankName": "Boursobank",
+    "accountName": "Compte joint",
+    "balance": 20
+}
+

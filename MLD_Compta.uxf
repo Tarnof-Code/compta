@@ -5,15 +5,16 @@
     <id>UMLClass</id>
     <coordinates>
       <x>232</x>
-      <y>144</y>
+      <y>136</y>
       <w>128</w>
-      <h>72</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>*User*
 --
 *- userId: Long*
 - userName: String
 - userPassword: String
+- cashBalance: String
 
 </panel_attributes>
     <additional_attributes/>
@@ -21,42 +22,68 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>288</x>
+      <x>296</x>
       <y>208</y>
-      <w>32</w>
-      <h>120</h>
+      <w>24</w>
+      <h>104</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>20.0;10.0;10.0;130.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>352</x>
-      <y>200</y>
-      <w>224</w>
-      <h>24</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>260.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>232</x>
-      <y>312</y>
-      <w>136</w>
-      <h>80</h>
+      <x>240</x>
+      <y>296</y>
+      <w>176</w>
+      <h>104</h>
     </coordinates>
     <panel_attributes>*Account*
 --
 *- id: Long*
-- name: String
-- balance: decimal
-*- #id_user*
+- bankName: Enum
+- accountName: String
+- balance: Decimal
+*- #id_user: Long (FK vers User)*
 
 
 </panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>536</x>
+      <y>296</y>
+      <w>264</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>*Accounting_line*
+--
+*- id: Long*
+- date: Date
+- description: String
+- amount: Decimal
+- category: String
+- movement: Enum
+*- accountFromId: Long (FK → Account.id, optional)*
+*- accountToId: Long (FK → Account.id, optional)*
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>408</x>
+      <y>344</y>
+      <w>144</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;160.0;10.0</additional_attributes>
   </element>
 </diagram>

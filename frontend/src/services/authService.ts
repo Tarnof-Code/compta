@@ -1,4 +1,3 @@
-import axios from "axios";
 import api from "@/plugins/axios";
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -16,7 +15,8 @@ export const clearToken = () => {
 };
 
 export const login = async (userName: string, userPassword: string) => {
-  const response = await axios.post(`${apiUrl}/auth/login`, {
+  console.log(userName, userPassword);
+  const response = await api.post(`${apiUrl}/auth/login`, {
     userName,
     userPassword,
   });
@@ -37,6 +37,7 @@ export const getProfile = async () => {
 export const isAuthenticated = async (): Promise<
   | false
   | {
+      cashBalance: number;
       userName: string;
       userId: string;
     }
@@ -47,7 +48,11 @@ export const isAuthenticated = async (): Promise<
   }
   try {
     const profile = await getProfile();
-    return { userId: profile.userId, userName: profile.userName };
+    return {
+      userId: profile.userId,
+      userName: profile.userName,
+      cashBalance: profile.cashBalance,
+    };
   } catch {
     clearToken();
     return false;

@@ -41,7 +41,11 @@ export class AuthService {
       throw new NotFoundException({
         error: 'Utilisateur non trouvé',
       });
-    return { userName: user.userName, userId: user.userId };
+    return {
+      userName: user.userName,
+      userId: user.userId,
+      cashBalance: user.cashBalance,
+    };
   }
 
   // Fonction pour vérifier un mot de passe haché
