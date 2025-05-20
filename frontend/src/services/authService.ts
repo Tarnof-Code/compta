@@ -15,7 +15,6 @@ export const clearToken = () => {
 };
 
 export const login = async (userName: string, userPassword: string) => {
-  console.log(userName, userPassword);
   const response = await api.post(`${apiUrl}/auth/login`, {
     userName,
     userPassword,

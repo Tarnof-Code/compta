@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -30,7 +34,11 @@ export class UsersService {
   }
 
   async getUserByUserId(userId: number): Promise<User | null> {
-    return await this.userRepository.findOneBy({ userId });
+    const user = await this.userRepository.findOne({
+      where: { userId },
+      relations: ['accounts'],
+    });
+    return user;
   }
 
   async createUser(user: User): Promise<string> {
@@ -39,7 +47,7 @@ export class UsersService {
       await this.userRepository.save({
         ...user,
         userPassword: userHashedPassword,
-      }); // insère un nouvel utilisateur avec un mot de passe crypté
+      });
       return `L'utilisateur ${user.userName} a été créé avec succès`;
     } catch (error) {
       console.log('error :::::', error);
@@ -50,5 +58,16 @@ export class UsersService {
   private async hashPassword(password: string) {
     const hashedPassword = await hash(password, 9);
     return hashedPassword;
+  }
+
+  async updateCashBalance(userId: number, cashBalance: number): Promise<void> {
+    const user = await this.userRepository.findOne({
+      where: { userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`Utilisateur introuvable`);
+    }
+    await this.userRepository.update(userId, { cashBalance });
   }
 }

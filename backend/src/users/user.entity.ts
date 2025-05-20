@@ -13,7 +13,7 @@ export class User {
   userPassword: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
-  cashBalance: string;
+  cashBalance: number;
 
   @OneToMany(() => Account, (account) => account.user)
   accounts: Account[];

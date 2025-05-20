@@ -9,6 +9,7 @@ import {
   createAccount as createAccountService,
   updateAccount as updateAccountService,
   deleteAccount as deleteAccountService,
+  updateCashBalance as updateCashBalanceService,
 } from "@/services/accountService";
 
 export const useAccountStore = defineStore("account", () => {
@@ -40,5 +41,16 @@ export const useAccountStore = defineStore("account", () => {
     accounts.value = accounts.value.filter((a) => a.accountId !== accountId);
   };
 
-  return { accounts, getAccounts, createAccount, updateAccount, deleteAccount };
+  const updateCashBalance = async (userId: number, balance: number) => {
+    await updateCashBalanceService(userId, balance);
+  };
+
+  return {
+    accounts,
+    getAccounts,
+    createAccount,
+    updateAccount,
+    deleteAccount,
+    updateCashBalance,
+  };
 });

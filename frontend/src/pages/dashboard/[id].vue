@@ -8,12 +8,34 @@
     </v-btn>
 
     <v-row>
+      <v-col cols="12" sm="12" md="6" lg="3">
+        <v-card class="mb-4" elevation="2">
+          <v-card-title class="d-flex align-center">
+            Espèces
+            <v-spacer />
+            <v-tooltip text="Modifier" location="top">
+              <template #activator="{ props }">
+                <v-btn
+                  icon
+                  density="compact"
+                  v-bind="props"
+                  @click="ouvrirEditionCash()"
+                >
+                  <v-icon size="16">mdi-pencil</v-icon>
+                </v-btn>
+              </template>
+            </v-tooltip>
+          </v-card-title>
+          <v-card-text>Solde : {{ authStore.user?.cashBalance }} €</v-card-text>
+        </v-card>
+      </v-col>
       <v-col
         v-for="(comptes, banque) in comptesParBanque"
         :key="banque"
         cols="12"
-        sm="6"
-        md="3"
+        sm="12"
+        md="6"
+        lg="3"
       >
         <v-card class="mb-4" elevation="2">
           <v-card-title class="text-center">{{ banque }}</v-card-title>
@@ -46,28 +68,6 @@
               <v-card-text>Solde actuel : {{ compte.balance }} €</v-card-text>
             </v-card>
           </v-card-text>
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" md="3">
-        <v-card class="mb-4" elevation="2">
-          <v-card-title class="d-flex align-center">
-            Espèces
-            <v-spacer />
-            <v-tooltip text="Modifier" location="top">
-              <template #activator="{ props }">
-                <v-btn
-                  icon
-                  density="compact"
-                  v-bind="props"
-                  @click="ouvrirEditionCash()"
-                >
-                  <v-icon size="16">mdi-pencil</v-icon>
-                </v-btn>
-              </template>
-            </v-tooltip>
-          </v-card-title>
-          <v-card-text>Solde : {{ authStore.user?.cashBalance }} €</v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -153,6 +153,34 @@
       </v-card>
     </v-dialog>
 
+    <!-- Modifier le solde -->
+    <v-dialog v-model="editCashDialog" max-width="500">
+      <v-card>
+        <v-card-title class="text-h6 font-weight-bold">
+          Modifier le solde
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="editCashForm" v-model="formValidEditCash">
+            <v-text-field
+              v-model.number="editedCash"
+              label="Solde (€)"
+              type="number"
+            />
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn @click="editCashDialog = false" text>Annuler</v-btn>
+          <v-btn
+            @click="modifierSolde"
+            :disabled="!formValidEditCash"
+            color="primary"
+            text
+            >Modifier</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <!-- Snackbar -->
     <v-snackbar
       v-model="snackbar"
@@ -185,6 +213,13 @@ const formValidEdit = ref(false);
 
 const addForm = ref();
 const editForm = ref();
+
+const editCashDialog = ref(false);
+const formValidEditCash = ref(false);
+const editCashForm = ref();
+const editedCashId = ref<number | null>(null);
+
+const editedCash = ref(0);
 
 const snackbar = ref(false);
 const snackbarMessage = ref("");
@@ -259,7 +294,22 @@ const supprimerCompte = async () => {
 };
 
 const ouvrirEditionCash = () => {
-  console.log("ouvrirEditionCash");
+  editedCash.value = authStore.user?.cashBalance || 0;
+  editedCashId.value = Number(authStore.user?.userId);
+  editCashDialog.value = true;
+};
+
+const modifierSolde = async () => {
+  if (!editCashForm.value?.validate() || !editedCashId.value) return;
+  try {
+    await accountStore.updateCashBalance(editedCashId.value, editedCash.value);
+    await authStore.fetchUser();
+    editCashDialog.value = false;
+    // await accountStore.getAccounts(Number(userId.value));
+    showSnackbar("Solde modifié avec succès !", "success");
+  } catch (error) {
+    showSnackbar("Erreur lors de la modification du solde.", "error");
+  }
 };
 
 const showSnackbar = (message: string, color: string) => {

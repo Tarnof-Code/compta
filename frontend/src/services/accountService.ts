@@ -31,3 +31,10 @@ export const deleteAccount = async (accountId: number) => {
   const response = await api.delete(`${apiUrl}/accounts/${accountId}`);
   return response.data;
 };
+
+export const updateCashBalance = async (userId: number, balance: number) => {
+  const response = await api.patch(`${apiUrl}/users/${userId}/cash-balance`, {
+    balance,
+  });
+  return response.data;
+};

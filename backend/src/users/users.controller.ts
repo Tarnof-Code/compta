@@ -5,6 +5,8 @@ import {
   Body,
   Param,
   UseInterceptors,
+  Patch,
+  NotFoundException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
@@ -32,5 +34,13 @@ export class UsersController {
   async createUser(@Body() user: User) {
     const data = await this.usersService.createUser(user);
     return data;
+  }
+
+  @Patch(':userId/cash-balance')
+  async updateCashBalance(
+    @Param('userId') userId: number,
+    @Body('balance') balance: number,
+  ): Promise<void> {
+    await this.usersService.updateCashBalance(userId, balance);
   }
 }

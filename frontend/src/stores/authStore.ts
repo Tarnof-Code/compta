@@ -20,12 +20,7 @@ export const useAuthStore = defineStore("auth", () => {
     error.value = null;
     try {
       await login(username, password);
-      const profile = await getProfile();
-      user.value = {
-        userId: profile.userId,
-        userName: profile.userName,
-        cashBalance: profile.cashBalance,
-      };
+      await fetchUser();
     } catch (err: any) {
       error.value = err.response.data.error;
       console.error("Login failed:", err);
@@ -52,6 +47,19 @@ export const useAuthStore = defineStore("auth", () => {
     }
   };
 
+  const fetchUser = async () => {
+    try {
+      const profile = await getProfile();
+      user.value = {
+        userId: profile.userId,
+        userName: profile.userName,
+        cashBalance: profile.cashBalance,
+      };
+    } catch (err) {
+      console.error("Erreur lors de la récupération du profil :", err);
+    }
+  };
+
   return {
     user,
     loading,
@@ -60,5 +68,6 @@ export const useAuthStore = defineStore("auth", () => {
     loginUser,
     logoutUser,
     checkAuth,
+    fetchUser,
   };
 });
